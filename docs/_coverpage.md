@@ -1,4 +1,4 @@
-# WoW Crafters by Realm <small>1.0.0</small>
+# WoW Crafters by Realm <small>2024/03/12</small>
 
 > A list of high-level crafters, by realm.
 
