@@ -1,22 +1,46 @@
 {
-  "name": "@mistweaverco/crafters.worldofwarcraft.rocks",
-  "version": "1.1.0",
-  "license": "MIT",
-  "description": "A list of high-level crafters, by realm.",
-  "homepage": "https://crafters.worldofwarcraft.rocks",
-  "authors": "Marco Kellershoff <marco@kellershoff.net>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mistweaverco/crafters.worldofwarcraft.rocks.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mistweaverco/crafters.worldofwarcraft.rocks/issues"
-  },
-  "scripts": {
-    "start": "serve docs"
-  },
-  "devDependencies": {
-    "serve": "14.2.1"
-  },
-  "packageManager": "yarn@4.1.1"
+	"name": "@mistweaverco/crafters.worldofwarcraft.rocks",
+	"version": "2.0.0",
+	"license": "MIT",
+	"description": "A list of high-level crafters, by realm.",
+	"homepage": "https://crafters.worldofwarcraft.rocks",
+	"authors": "Marco Kellershoff <marco@kellershoff.net>",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:mistweaverco/crafters.worldofwarcraft.rocks.git"
+	},
+	"bugs": {
+		"url": "https://github.com/mistweaverco/crafters.worldofwarcraft.rocks/issues"
+	},
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+		"test": "vitest",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"docs": "serve docs"
+	},
+	"devDependencies": {
+		"@fontsource/fira-mono": "^4.5.10",
+		"@neoconfetti/svelte": "^1.0.0",
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@types/eslint": "^8.56.0",
+		"eslint": "^8.56.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-svelte": "^2.35.1",
+		"prettier": "^3.1.1",
+		"prettier-plugin-svelte": "^3.1.2",
+		"serve": "^14.2.1",
+		"svelte": "^4.2.7",
+		"svelte-check": "^3.6.0",
+		"typescript": "^5.0.0",
+		"vite": "^5.0.3",
+		"vitest": "^1.2.0"
+	},
+	"type": "module"
 }
