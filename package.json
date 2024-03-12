@@ -1,0 +1,22 @@
+{
+  "name": "@mistweaverco/crafters.worldofwarcraft.rocks",
+  "version": "1.1.0",
+  "license": "MIT",
+  "description": "A list of high-level crafters, by realm.",
+  "homepage": "https://crafters.worldofwarcraft.rocks",
+  "authors": "Marco Kellershoff <marco@kellershoff.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mistweaverco/crafters.worldofwarcraft.rocks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mistweaverco/crafters.worldofwarcraft.rocks/issues"
+  },
+  "scripts": {
+    "start": "serve docs"
+  },
+  "devDependencies": {
+    "serve": "14.2.1"
+  },
+  "packageManager": "yarn@4.1.1"
+}
