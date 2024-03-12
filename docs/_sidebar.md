@@ -1,4 +1,4 @@
-- Crafters
+- Professions
 
   - [Alchemy](alchemy.md)
   - [Blacksmithing](blacksmithing.md)
