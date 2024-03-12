@@ -7,4 +7,4 @@
   - [Inscription](inscription.md)
   - [Jewelcrafting](jewelcrafting.md)
   - [Leatherworking](leatherworking.md)
-  - [tailoring](tailoring.md)
+  - [Tailoring](tailoring.md)

@@ -38,6 +38,9 @@
 
 #### Das Konsortium - Das Syndikat - Der Abyssische Rat - Die Arguswacht - Die Silberne Hand - Die Todeskrallen - Die ewige Wacht - Kult der Verdammten
 
+ - [Ilyane-DieEwigeWacht](https://worldofwarcraft.blizzard.com/en-gb/character/eu/die-ewige-wacht/Ilyane)
+ - [Nipani-DieSilberneHand](https://worldofwarcraft.blizzard.com/en-gb/character/eu/die-silberne-hand/Nipani)
+
 #### Der Mithrilorden - Der Rat von Dalaran - Die Nachtwache - Forscherliga - Todeswache - Zirkel des Cenarius
 
 #### Blackrock

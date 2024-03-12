@@ -38,6 +38,9 @@
 
 #### Das Konsortium - Das Syndikat - Der Abyssische Rat - Die Arguswacht - Die Silberne Hand - Die Todeskrallen - Die ewige Wacht - Kult der Verdammten
 
+ - [Yuukì-DieSilberneHand](https://worldofwarcraft.blizzard.com/en-gb/character/eu/die-silberne-hand/Yuuk%C3%AC)
+ - [Taz-DasKonsortium](https://worldofwarcraft.blizzard.com/en-gb/character/eu/das-konsortium/Taz)
+
 #### Der Mithrilorden - Der Rat von Dalaran - Die Nachtwache - Forscherliga - Todeswache - Zirkel des Cenarius
 
 #### Blackrock
