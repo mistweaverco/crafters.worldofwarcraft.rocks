@@ -1,10 +1,12 @@
-export async function load({ params, url }) {
-	const query = url.searchParams;
-	const name = query.get('name');
-	const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
-	const json = await response.json();
+import {
+	CLIENT_ID,
+	REDIRECT_URI
+} from '$env/static/private'
+
+export async function load() {
 	return {
-		pokemon: json
+		clientId: CLIENT_ID,
+		redirectUri: REDIRECT_URI,
 	};
 }
 
