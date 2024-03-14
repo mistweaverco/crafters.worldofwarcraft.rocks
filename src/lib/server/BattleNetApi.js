@@ -37,7 +37,7 @@ function getAuthString() {
 /**
 * @typedef {Object} ApiTokenSuccessResponse
 * @property {string} token_type - The token type.
-* @property {string} token - The token.
+* @property {string} access_token - The token.
 * @property {number} expires_in - The token expiration time.
 */
 
@@ -76,9 +76,17 @@ export async function getApiToken(code) {
 }
 
 /**
+* @typedef {Object} WowCharactersRealmResponse
+* @property {number} id - The realm id.
+* @property {string} name - The realm name.
+* @property {string} slug - The realm slug.
+*/
+
+/**
 * @typedef {Object} WowCharactersResponse
 * @property {string} name - The character name.
 * @property {number} level - The character level.
+* @property {WowCharactersRealmResponse} realm - The character realm.
 */
 
 /**
@@ -88,7 +96,7 @@ export async function getApiToken(code) {
 */
 
 /**
-* @typedef {Object} AccountProfileSummaryResponse
+* @typedef {Object} WowAccountProfileSummaryResponse
 * @property {string} id - The account id.
 * @property {Array<WowAccountsResponse>} wow_accounts - The associated wow accounts.
 */
@@ -97,9 +105,9 @@ export async function getApiToken(code) {
  * Get the account profile getAccountProfileSummary
  * @param {WowRegion} region - The region to get the profile from
  * @param {string} token - The token to use for the request
- * @returns {Promise<Object>} - The promise of the fetch request
+ * @returns {Promise<WowAccountProfileSummaryResponse>} - The promise of the fetch request
  */
-export async function getAccountProfileSummary(region, token) {
+export async function getWowAccountProfileSummary(region, token) {
 	const apiBaseUri = getApiBaseUri(region);
 	const apiEndpoint = `${apiBaseUri}/profile/user/wow?namespace=${API_NAMESPACE}&locale=${API_LOCALE}&access_token=${token}`
 	let result = null;
