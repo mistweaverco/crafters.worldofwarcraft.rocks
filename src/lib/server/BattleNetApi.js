@@ -14,7 +14,7 @@ import {
 } from '$lib/client/BattleNetApi'
 
 /**
- * @typedef {"eu" | "us"} WowRegion
+ * @typedef {import('$lib/types/BattleNetApi').WowRegion} WowRegion
  */
 
 /**

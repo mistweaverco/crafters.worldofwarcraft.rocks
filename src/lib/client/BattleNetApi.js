@@ -1,9 +1,14 @@
+import {
+	PUBLIC_BNET_CLIENT_ID,
+	PUBLIC_REDIRECT_URI
+} from '$env/static/public'
+
 export const API_LOCALE = 'en_US';
 export const API_NAMESPACE = 'profile-eu';
 export const API_OAUTH_TOKEN_ENDPOINT = 'https://eu.battle.net/oauth/token';
 
 /**
- * @typedef {"eu" | "us"} WowRegion
+ * @typedef {import('$lib/types/BattleNetApi').WowRegion} WowRegion
  */
 
 /**
