@@ -1,11 +1,8 @@
 <script>
-	import {
-		PUBLIC_BNET_CLIENT_ID,
-		PUBLIC_REDIRECT_URI
-	} from '$env/static/public'
+	import { getAuthClickUrl } from '$lib/client/BattleNetApi';
+
 	const handleClick = () => {
-		const url = `https://eu.battle.net/oauth/authorize?client_id=${PUBLIC_BNET_CLIENT_ID}&redirect_uri=${PUBLIC_REDIRECT_URI}&response_type=code&scope=wow.profile&state=xyz`;
-		window.location.href = url;
+		window.location.href = getAuthClickUrl('eu');
 	};
 </script>
 

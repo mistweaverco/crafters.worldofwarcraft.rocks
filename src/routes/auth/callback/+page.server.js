@@ -39,8 +39,8 @@ async function getApiToken(code) {
 	return jsonResult;
 }
 
-async function getApiResults(code) {
-	const apiEndpoint = `https://eu.api.blizzard.com/profile/user/wow?namespace=${API_NAMESPACE}&locale=en_US&access_token=${code}`
+async function getApiResults(token) {
+	const apiEndpoint = `https://eu.api.blizzard.com/profile/user/wow?namespace=${API_NAMESPACE}&locale=en_US&access_token=${token}`
 	let result = null;
 	let jsonResult = null;
 	try {
@@ -64,8 +64,8 @@ async function getApiResults(code) {
 export async function load({ url }) {
 	const query = url.searchParams;
 	const code = query.get('code');
-	const jsonResult = await getApiToken(code);
-	console.log('jsonResult', jsonResult);
-	return jsonResult;
+	const apiTokenResult = await getApiToken(code);
+	console.log('apiTokenResult', apiTokenResult);
+	return apiTokenResult;
 }
 
