@@ -11,9 +11,11 @@
 </svelte:head>
 
 <section>
-	<BattleNetButton
-		data={battleNetButtonData}
-	/>
+	{#key battleNetButtonData}
+		<BattleNetButton
+			data={battleNetButtonData}
+		/>
+	{/key}
 </section>
 
 <style>

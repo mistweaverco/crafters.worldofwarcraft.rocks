@@ -1,13 +1,12 @@
 <script>
 	import { getAuthClickUrl } from '$lib/client/BattleNetApi';
-	import { goto } from '$app/navigation';
 	export let data;
 
 	const handleClickAuth = () => {
 		window.location.href = getAuthClickUrl('eu');
 	};
 	const handleClickLogout = () => {
-		goto('/auth/logout');
+		window.location.href = '/auth/logout';
 	};
 </script>
 
