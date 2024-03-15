@@ -40,8 +40,8 @@ export async function load({ url }) {
 
 	// TODO: Save everything to a database, for later use in the crafting order search
 
-	const accoutProfileSummary = await getWowAccountProfileSummary(region, accessToken);
-	accoutProfileSummary.wow_accounts.forEach((account) => {
+	const accountProfileSummary = await getWowAccountProfileSummary(region, accessToken);
+	accountProfileSummary.wow_accounts.forEach((account) => {
 		const maxLevelCharacters = filterMaxLevelCharacters(account.characters);
 		maxLevelCharacters.forEach(async (character) => {
 			console.log(`Character: ${character.name} @ ${character.realm.name} (${character.realm.id})`);
