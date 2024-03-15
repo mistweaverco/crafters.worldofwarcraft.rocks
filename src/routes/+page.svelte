@@ -1,5 +1,8 @@
 <script>
 	import BattleNetButton from './BattleNetButton.svelte';
+	export let data;
+	const hasAccessTokenCookie = data?.hasAccessTokenCookie;
+	const battleNetButtonData = { hasAccessTokenCookie };
 </script>
 
 <svelte:head>
@@ -8,7 +11,9 @@
 </svelte:head>
 
 <section>
-	<BattleNetButton />
+	<BattleNetButton
+		data={battleNetButtonData}
+	/>
 </section>
 
 <style>

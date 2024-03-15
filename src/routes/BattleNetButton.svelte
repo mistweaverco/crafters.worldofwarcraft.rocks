@@ -1,12 +1,22 @@
 <script>
 	import { getAuthClickUrl } from '$lib/client/BattleNetApi';
+	import { goto } from '$app/navigation';
+	export let data;
 
-	const handleClick = () => {
+	const handleClickAuth = () => {
 		window.location.href = getAuthClickUrl('eu');
+	};
+	const handleClickLogout = () => {
+		goto('/auth/logout');
 	};
 </script>
 
-<button on:click={handleClick} class="battledotnet"><i></i> Login with Battle.net</button>
+{#if data.hasAccessTokenCookie}
+	<button on:click={handleClickLogout} class="battledotnet"><i></i> Logout</button>
+{:else}
+	<button on:click={handleClickAuth} class="battledotnet"><i></i> Login with Battle.net</button>
+{/if}
+
 
 <style>
 button.battledotnet {

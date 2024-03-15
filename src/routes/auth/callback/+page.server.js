@@ -1,3 +1,5 @@
+import { redirect } from '@sveltejs/kit';
+
 import {
 	filterMaxLevelCharacters,
 	getApiToken,
@@ -5,10 +7,12 @@ import {
 	getWowConnectedRealmsByRealmId,
 } from '$lib/server/BattleNetApi';
 
+import { setCookie } from '$lib/server/CookieHelper';
+
 /**
- * @type {import('@sveltejs/kit').Load}
+ * @type {import('@sveltejs/kit').ServerLoad}
  */
-export async function load({ url }) {
+export async function load({ url, cookies }) {
 	const region = 'eu';
 	const query = url.searchParams;
 	const code = query.get('code') || '';
@@ -54,6 +58,7 @@ export async function load({ url }) {
 		});
 	});
 	console.log('apiTokenResult', apiTokenResult);
-	return apiTokenResult;
+	setCookie(cookies, 'accessToken', accessToken);
+	redirect(301, '/');
 }
 
