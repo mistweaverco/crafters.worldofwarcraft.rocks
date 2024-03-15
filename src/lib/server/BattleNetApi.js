@@ -57,12 +57,7 @@ async function getRemoteJson(url, options) {
 	let result = null;
 	let jsonResult = { error: 'no result' };
 	try {
-		result = await fetch(url, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			}
-		});
+		result = await fetch(url, options);
 		try {
 			jsonResult = await result.json();
 		} catch (e) {
@@ -73,6 +68,16 @@ async function getRemoteJson(url, options) {
 		console.error('error', e);
 	}
 	return jsonResult;
+}
+
+/**
+ * Filter the characters by the maximum level
+ * @param {Array<WowCharactersResponse>} characters - The characters to filter
+ * @returns {Array<WowCharactersResponse>} - The filtered characters
+ * @description This function should filter the characters by the maximum level
+ */
+export function filterMaxLevelCharacters(characters) {
+	return characters.filter((character) => character.level === 70);
 }
 
 /**
@@ -94,10 +99,13 @@ async function getRemoteJson(url, options) {
  */
 export async function getApiToken(code) {
 	const apiEndpoint = `${API_OAUTH_TOKEN_ENDPOINT}?grant_type=authorization_code&code=${code}&redirect_uri=${PUBLIC_REDIRECT_URI}`
-	const headers = new Headers({
-		'Authorization': `Basic ${btoa(getAuthString())}`,
+	const result = await getRemoteJson(apiEndpoint, {
+		method: 'POST',
+		headers: {
+			'Authorization': `Basic ${btoa(getAuthString())}`,
+		},
+		credentials: 'include',
 	});
-	const result = await getRemoteJson(apiEndpoint, { method: 'POST', headers: headers });
 	return result;
 }
 

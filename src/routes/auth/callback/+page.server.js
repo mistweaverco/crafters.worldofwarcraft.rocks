@@ -1,6 +1,8 @@
 import {
-	getWowAccountProfileSummary,
+	filterMaxLevelCharacters,
 	getApiToken,
+	getWoWConnectedRealmsByRealmId,
+	getWowAccountProfileSummary,
 } from '$lib/server/BattleNetApi';
 
 /**
@@ -14,6 +16,8 @@ export async function load({ url }) {
 	if ('error' in apiTokenResult) {
 		return apiTokenResult;
 	}
+
+	const accessToken = apiTokenResult.access_token;
 
 	// TODO: Get all characters with level 70 and their professions
 	//       then filter out the ones with the professions we want
@@ -35,12 +39,13 @@ export async function load({ url }) {
 
 	// TODO: Save everything to a database, for later use in the crafting order search
 
-	const accoutProfileSummary = await getWowAccountProfileSummary('eu', apiTokenResult.access_token);
+	const accoutProfileSummary = await getWowAccountProfileSummary('eu', accessToken);
 	accoutProfileSummary.wow_accounts.forEach((account) => {
-		account.characters.forEach((character) => {
-			if (character.level === 70) {
-				console.log(`Character: ${character.name} @ ${character.realm.name} (${character.realm.id})`);
-			}
+		const maxLevelCharacters = filterMaxLevelCharacters(account.characters);
+		maxLevelCharacters.forEach(async (character) => {
+			console.log(`Character: ${character.name} @ ${character.realm.name} (${character.realm.id})`);
+			const connectedRealmsResult = await getWoWConnectedRealmsByRealmId('eu', character.realm.id, accessToken);
+			console.log('connectedRealmsName', connectedRealmsResult.name);
 		});
 	});
 	console.log('apiTokenResult', apiTokenResult);
