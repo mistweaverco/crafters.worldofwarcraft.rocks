@@ -39,7 +39,7 @@ export async function load({ url }) {
 	accoutProfileSummary.wow_accounts.forEach((account) => {
 		account.characters.forEach((character) => {
 			if (character.level === 70) {
-				console.log(`Character: ${character.name} @ ${character.realm.name}`);
+				console.log(`Character: ${character.name} @ ${character.realm.name} (${character.realm.id})`);
 			}
 		});
 	});

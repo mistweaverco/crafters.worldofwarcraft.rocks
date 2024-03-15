@@ -9,7 +9,6 @@ import {
 
 import {
 	API_LOCALE,
-	API_NAMESPACE,
 	API_OAUTH_TOKEN_ENDPOINT
 } from '$lib/client/BattleNetApi'
 
@@ -27,11 +26,53 @@ function getApiBaseUri(region) {
 }
 
 /**
+ * Get the namespace for the api
+ * @param {WowRegion} region - The region to get the namespace for
+ * @param {"static" | "dynamic" | "profile"} type - The type to get the namespace for
+ * @returns {string} - The namespace (a string like "static-eu" or "dynamic-eu").
+ */
+function getApiNamespace(region, type) {
+	return `${type}-${region}`;
+}
+
+/**
  * Get the auth string for the api
  * @returns {string} - The auth string for the api
  */
 function getAuthString() {
 	return `${PUBLIC_BNET_CLIENT_ID}:${PRIVATE_BNET_CLIENT_SECRET}`;
+}
+
+/**
+ * Get the json from a remote url
+ * @param {string} url - The url to get the json from
+ * @param {RequestInit} [options] - The options for the request
+ * @returns {Promise<any>} - The promise of the fetch request
+ */
+async function getRemoteJson(url, options) {
+	options = options || {};
+	options.method = options.method || 'GET';
+	options.headers = options.headers || {};
+	options.headers['Content-Type'] = 'application/json';
+	let result = null;
+	let jsonResult = { error: 'no result' };
+	try {
+		result = await fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			}
+		});
+		try {
+			jsonResult = await result.json();
+		} catch (e) {
+			console.error('error', e);
+		}
+	}
+	catch (e) {
+		console.error('error', e);
+	}
+	return jsonResult;
 }
 
 /**
@@ -53,27 +94,70 @@ function getAuthString() {
  */
 export async function getApiToken(code) {
 	const apiEndpoint = `${API_OAUTH_TOKEN_ENDPOINT}?grant_type=authorization_code&code=${code}&redirect_uri=${PUBLIC_REDIRECT_URI}`
-	let result = null;
-	let jsonResult = null;
 	const headers = new Headers({
 		'Authorization': `Basic ${btoa(getAuthString())}`,
 	});
-	try {
-		result = await fetch(apiEndpoint, {
-			credentials: 'include',
-			method: 'POST',
-			headers: headers
-		});
-		try {
-			jsonResult = await result.json();
-		} catch (e) {
-			console.error('error', e);
-		}
-	} catch (e) {
-		console.error('error', e);
-	}
-	return jsonResult;
+	const result = await getRemoteJson(apiEndpoint, { method: 'POST', headers: headers });
+	return result;
 }
+
+/**
+ * @typedef {Object} WowRealmResponse
+ * @property {number} id - The realm id.
+ * @property {string} name - The realm name.
+ * @property {string} category - German, French, English, etc.
+ * @property {string} locale - The realm locale (enGB, deDE, frFR, etc).
+ * @property {string} timezone - The realm timezone (Europe/Paris, etc).
+ * @property {object} type - The realm type (pvp, pve, rp, rppvp).
+ * @property {"RP" | "PVP" | "PVE"} type.type - The realm type.
+ * @property {"Roleplaying" | "Player Versus Player" | "Player Versus Environment"} type.name - The name of the realm type.
+ */
+
+/**
+ * @typedef {Object} WowConnectedRealmResponse
+ * @property {number} id - The connected realm id.
+ * @property {string} name - The connected realm name.
+ * @property {object} status - The connected realm status.
+ * @property {"UP" | "DOWN"} status.type - The connected realm status type.
+ * @property {"Up" | "Down"} status.name - The connected realm status name.
+ * @property {object} population - The connected realm population.
+ * @property {"HIGH" | "MEDIUM" | "LOW"} population.type - The connected realm population type.
+ * @property {"High" | "Medium" | "Low"} population.name - The connected realm population name.
+ * @property {Array<WowRealmResponse>} realms - The connected realm realms.
+ */
+
+/**
+ * @type {Map<WowRegion, Map<number, WowConnectedRealmResponse>>}
+ * @description The cache for the connected realms
+ * @private
+ */
+const WowConnectedRealmResponseCache = new Map();
+
+/**
+ * Get the connected realms
+ * @param {WowRegion} region - The region to get the connected realms from
+ * @param {number} realmId - The realm id to get the connected realms from
+ * @param {string} token - The token to use for the request
+ * @returns {Promise<WowConnectedRealmResponse>} - The promise of the fetch request
+ */
+export async function getWoWConnectedRealmsByRealmId(region, realmId, token) {
+	let regionCache = WowConnectedRealmResponseCache.get(region);
+	let realmCache = regionCache ? regionCache.get(realmId) : null;
+	if (realmCache) {
+		console.debug(`getWoWConnectedRealmsByRealmId(${region}, ${realmId}) from cache`);
+		return realmCache;
+	}
+	const apiBaseUri = getApiBaseUri(region);
+	const ns = getApiNamespace(region, 'dynamic');
+	const apiEndpoint = `${apiBaseUri}/data/wow/connected-realm/${realmId}?namespace=${ns}&locale=${API_LOCALE}&access_token=${token}`
+	const result = await getRemoteJson(apiEndpoint);
+	if (!regionCache) {
+		WowConnectedRealmResponseCache.set(region, new Map());
+		regionCache = WowConnectedRealmResponseCache.get(region);
+	}
+	regionCache?.set(realmId, result);
+	return result;
+};
 
 /**
 * @typedef {Object} WowCharactersRealmResponse
@@ -109,23 +193,8 @@ export async function getApiToken(code) {
  */
 export async function getWowAccountProfileSummary(region, token) {
 	const apiBaseUri = getApiBaseUri(region);
-	const apiEndpoint = `${apiBaseUri}/profile/user/wow?namespace=${API_NAMESPACE}&locale=${API_LOCALE}&access_token=${token}`
-	let result = null;
-	let jsonResult = null;
-	try {
-		result = await fetch(apiEndpoint, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			}
-		});
-		try {
-			jsonResult = await result.json();
-		} catch (e) {
-			console.error('error', e);
-		}
-	} catch (e) {
-		console.error('error', e);
-	}
-	return jsonResult;
+	const ns = getApiNamespace(region, 'profile');
+	const apiEndpoint = `${apiBaseUri}/profile/user/wow?namespace=${ns}&locale=${API_LOCALE}&access_token=${token}`
+	const result = await getRemoteJson(apiEndpoint);
+	return result;
 }
