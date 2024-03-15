@@ -1,14 +1,15 @@
 import {
 	filterMaxLevelCharacters,
 	getApiToken,
-	getWoWConnectedRealmsByRealmId,
 	getWowAccountProfileSummary,
+	getWowConnectedRealmsByRealmId,
 } from '$lib/server/BattleNetApi';
 
 /**
  * @type {import('@sveltejs/kit').Load}
  */
 export async function load({ url }) {
+	const region = 'eu';
 	const query = url.searchParams;
 	const code = query.get('code') || '';
 	const apiTokenResult = await getApiToken(code);
@@ -39,13 +40,17 @@ export async function load({ url }) {
 
 	// TODO: Save everything to a database, for later use in the crafting order search
 
-	const accoutProfileSummary = await getWowAccountProfileSummary('eu', accessToken);
+	const accoutProfileSummary = await getWowAccountProfileSummary(region, accessToken);
 	accoutProfileSummary.wow_accounts.forEach((account) => {
 		const maxLevelCharacters = filterMaxLevelCharacters(account.characters);
 		maxLevelCharacters.forEach(async (character) => {
 			console.log(`Character: ${character.name} @ ${character.realm.name} (${character.realm.id})`);
-			const connectedRealmsResult = await getWoWConnectedRealmsByRealmId('eu', character.realm.id, accessToken);
-			console.log('connectedRealmsName', connectedRealmsResult.id);
+			// We need to get all connected realms for the realm id
+			// so we know where the recipes are available
+			const connectedRealmsResult = await getWowConnectedRealmsByRealmId(region, character.realm.id, accessToken);
+			connectedRealmsResult.realms.forEach((realm) => {
+				console.log(`Connected Realm: ${realm.name}`);
+			})
 		});
 	});
 	console.log('apiTokenResult', apiTokenResult);

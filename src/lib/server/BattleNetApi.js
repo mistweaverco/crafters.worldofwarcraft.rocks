@@ -134,35 +134,17 @@ export async function getApiToken(code) {
  */
 
 /**
- * @type {Map<WowRegion, Map<number, WowConnectedRealmResponse>>}
- * @description The cache for the connected realms
- * @private
- */
-const WowConnectedRealmResponseCache = new Map();
-
-/**
  * Get the connected realms
  * @param {WowRegion} region - The region to get the connected realms from
  * @param {number} realmId - The realm id to get the connected realms from
  * @param {string} token - The token to use for the request
  * @returns {Promise<WowConnectedRealmResponse>} - The promise of the fetch request
  */
-export async function getWoWConnectedRealmsByRealmId(region, realmId, token) {
-	let regionCache = WowConnectedRealmResponseCache.get(region);
-	let realmCache = regionCache ? regionCache.get(realmId) : null;
-	if (realmCache) {
-		console.debug(`getWoWConnectedRealmsByRealmId(${region}, ${realmId}) from cache`);
-		return realmCache;
-	}
+export async function getWowConnectedRealmsByRealmId(region, realmId, token) {
 	const apiBaseUri = getApiBaseUri(region);
 	const ns = getApiNamespace(region, 'dynamic');
 	const apiEndpoint = `${apiBaseUri}/data/wow/connected-realm/${realmId}?namespace=${ns}&locale=${API_LOCALE}&access_token=${token}`
 	const result = await getRemoteJson(apiEndpoint);
-	if (!regionCache) {
-		WowConnectedRealmResponseCache.set(region, new Map());
-		regionCache = WowConnectedRealmResponseCache.get(region);
-	}
-	regionCache?.set(realmId, result);
 	return result;
 };
 
