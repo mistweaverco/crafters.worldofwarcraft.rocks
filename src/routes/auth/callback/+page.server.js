@@ -45,7 +45,7 @@ export async function load({ url }) {
 		maxLevelCharacters.forEach(async (character) => {
 			console.log(`Character: ${character.name} @ ${character.realm.name} (${character.realm.id})`);
 			const connectedRealmsResult = await getWoWConnectedRealmsByRealmId('eu', character.realm.id, accessToken);
-			console.log('connectedRealmsName', connectedRealmsResult.name);
+			console.log('connectedRealmsName', connectedRealmsResult.id);
 		});
 	});
 	console.log('apiTokenResult', apiTokenResult);

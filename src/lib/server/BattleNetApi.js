@@ -124,7 +124,6 @@ export async function getApiToken(code) {
 /**
  * @typedef {Object} WowConnectedRealmResponse
  * @property {number} id - The connected realm id.
- * @property {string} name - The connected realm name.
  * @property {object} status - The connected realm status.
  * @property {"UP" | "DOWN"} status.type - The connected realm status type.
  * @property {"Up" | "Down"} status.name - The connected realm status name.
