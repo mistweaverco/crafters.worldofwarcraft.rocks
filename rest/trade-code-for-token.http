@@ -1,3 +1,0 @@
-GET https://oauth.battle.net/token?
-Authorization: {{CLIENT_ID}}:{{CLIENT_SECRET}}
-Content-Type: application/json; charset=utf-8
