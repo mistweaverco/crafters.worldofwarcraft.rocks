@@ -1,17 +1,21 @@
 <script>
-	import CrafterSearch from './../components/CrafterSearch.svelte';
+	import BattleNetButton from './BattleNetButton.svelte';
 	export let data;
 	const hasAccessTokenCookie = data?.hasAccessTokenCookie;
-	const craftingQuestionaireData = { hasAccessTokenCookie };
+	const battleNetButtonData = { hasAccessTokenCookie };
 </script>
 
 <svelte:head>
 	<title>Home</title>
-	<meta name="description" content="A list of high-level WoW Crafters!" />
+	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 <section>
-	<CrafterSearch/>
+	{#key battleNetButtonData}
+		<BattleNetButton
+			data={battleNetButtonData}
+		/>
+	{/key}
 </section>
 
 <style>

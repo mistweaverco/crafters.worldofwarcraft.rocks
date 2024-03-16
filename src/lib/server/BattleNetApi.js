@@ -1,5 +1,5 @@
 import {
-	PRIVATE_BNET_CLIENT_SECRET,
+	BNET_CLIENT_SECRET,
 } from '$env/static/private'
 
 import {
@@ -40,7 +40,7 @@ function getApiNamespace(region, type) {
  * @returns {string} - The auth string for the api
  */
 function getAuthString() {
-	return `${PUBLIC_BNET_CLIENT_ID}:${PRIVATE_BNET_CLIENT_SECRET}`;
+	return `${PUBLIC_BNET_CLIENT_ID}:${BNET_CLIENT_SECRET}`;
 }
 
 /**

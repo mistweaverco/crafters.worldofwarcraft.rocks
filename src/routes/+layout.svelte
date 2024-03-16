@@ -1,9 +1,17 @@
 <script>
 	import Header from './Header.svelte';
+	import RegionQuestionaire from './../components/RegionQuestionaire.svelte';
+	import { isRegionQuestionaireOpen } from './../stores/RegionQuestionaireStore';
 	import './styles.css';
+	import '$lib/tailwind.css';
 </script>
 
 <div class="app">
+
+	{#if $isRegionQuestionaireOpen}
+		<RegionQuestionaire />
+	{/if}
+
 	<Header />
 
 	<main>
