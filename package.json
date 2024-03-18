@@ -21,7 +21,9 @@
 		"test": "vitest",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"docs": "serve docs"
+		"docs": "serve docs",
+		"db:pull": "npx prisma db pull",
+		"db:generate": "npx prisma generate"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
