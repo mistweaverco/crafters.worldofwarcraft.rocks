@@ -1,8 +1,8 @@
 <script>
 	import CrafterSearch from './../components/CrafterSearch.svelte';
 	export let data;
-	const hasAccessTokenCookie = data?.hasAccessTokenCookie;
-	const craftingQuestionaireData = { hasAccessTokenCookie };
+	const region = data?.region;
+	const crafterSearchData = { region };
 </script>
 
 <svelte:head>
@@ -11,7 +11,9 @@
 </svelte:head>
 
 <section>
-	<CrafterSearch/>
+	<CrafterSearch
+		data={crafterSearchData}
+	/>
 </section>
 
 <style>

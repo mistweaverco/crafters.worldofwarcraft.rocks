@@ -149,6 +149,58 @@ export async function getWowConnectedRealmsByRealmId(region, realmId, token) {
 };
 
 /**
+ * @typedef {Object} WowRealmsIndexRealmsItem
+ * @property {number} id - The realm id.
+ * @property {string} name - The realm name.
+ * @property {string} slug - The realm slug.
+ * @property {object} key - The realm key object.
+ * @property {string} key.href - The realm href.
+ */
+
+/**
+ * @typedef {Object} WowRealmsIndexResponse
+ * @property {Array<WowRealmsIndexRealmsItem>} realms - The available realms in this region.
+ */
+
+/**
+ * Get the realms index
+ * @param {WowRegion} region - The region to get the connected realms from
+ * @param {string} token - The token to use for the request
+ * @returns {Promise<WowRealmsIndexResponse>} - The promise of the fetch request
+ */
+export async function getWowRealmsIndex(region, token) {
+	const apiBaseUri = getApiBaseUri(region);
+	const ns = getApiNamespace(region, 'dynamic');
+	const apiEndpoint = `${apiBaseUri}/data/wow/realm/index?namespace=${ns}&locale=${API_LOCALE}&access_token=${token}`
+	const result = await getRemoteJson(apiEndpoint);
+	return result;
+};
+
+/**
+ * @typedef {Object} WowRealmIndexRealmsItem
+ * @property {number} id - The realm id.
+ * @property {string} name - The realm name.
+ * @property {string} slug - The realm slug.
+ * @property {string} key.href - The realm href.
+ */
+
+/**
+ * @typedef {Object} WowRealmIndexResponse
+ * @property {Array<WowRealmIndexRealmsItem>} realms - The available realms in this region.
+ */
+
+/**
+ * Get the realm by href
+ * @param {string} href - The href to get the realm from
+ * @param {string} token - The token to use for the request
+ * @returns {Promise<WowRealmIndexResponse>} - The promise of the fetch request
+ */
+export async function getWowRealmByHref(href, token) {
+	const result = await getRemoteJson(`${href}&access_token=${token}`);
+	return result;
+};
+
+/**
 * @typedef {Object} WowCharactersRealmResponse
 * @property {number} id - The realm id.
 * @property {string} name - The realm name.

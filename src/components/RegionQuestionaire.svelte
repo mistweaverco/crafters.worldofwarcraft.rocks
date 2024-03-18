@@ -5,7 +5,16 @@ import { region } from './../stores/RegionStore';
 /**
  * @this {HTMLButtonElement}
  */
-const handleButtonClick = function() {
+const handleButtonClick = async function() {
+	// send the selected region to the server,
+	// so we can set the region in the server session cookie
+	await fetch('/api/region', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ region: this.value })
+	});
 	region.set(this.value);
 	isRegionQuestionaireOpen.set(false);
 }

@@ -53,11 +53,10 @@ export async function load({ url, cookies }) {
 			// so we know where the recipes are available
 			const connectedRealmsResult = await getWowConnectedRealmsByRealmId(region, character.realm.id, accessToken);
 			connectedRealmsResult.realms.forEach((realm) => {
-				console.log(`Connected Realm: ${realm.name}`);
+				// TODO save to database
 			})
 		});
 	});
-	console.log('apiTokenResult', apiTokenResult);
 	setCookie(cookies, 'accessToken', accessToken);
 	redirect(301, '/');
 }

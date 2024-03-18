@@ -4,11 +4,14 @@
 	import { isRegionQuestionaireOpen } from './../stores/RegionQuestionaireStore';
 	import './styles.css';
 	import '$lib/tailwind.css';
+
+	export let data;
+	const region = data?.region;
 </script>
 
 <div class="app">
 
-	{#if $isRegionQuestionaireOpen}
+	{#if $isRegionQuestionaireOpen && !region}
 		<RegionQuestionaire />
 	{/if}
 
