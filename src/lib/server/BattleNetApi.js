@@ -239,3 +239,48 @@ export async function getWowAccountProfileSummary(region, token) {
 	const result = await getRemoteJson(apiEndpoint);
 	return result;
 }
+
+/**
+ * @typedef {Object} WowPrimaryProfessionTierRecipe
+ * @property {number} id - The recipe id.
+ * @property {string} name - The recipe name.
+ */
+
+/**
+ * @typedef {Object} WowPrimaryProfessionTier
+ * @property {number} skill_points - The profession skill points.
+ * @property {number} max_skill_points - The profession max skill points.
+ * @property {Object} tier - The profession tier object.
+ * @property {number} tier.id - The profession tier id.
+ * @property {string} tier.name - The profession tier name.
+ * @property {Array<WowPrimaryProfessionTierRecipe>} known_recipes - The known recipes object.
+ */
+
+/**
+ * @typedef {Object} WowPrimaryProfession
+ * @property {Object} profession - The profession object.
+ * @property {number} profession.id - The profession id.
+ * @property {string} profession.name - The profession name.
+ * @property {Array<WowPrimaryProfessionTier>} skill_tier - The profession skill tier.
+ */
+
+/**
+ * @typedef {Object} WowCharacterProfileSummaryResponse
+ * @property {Array<WowPrimaryProfession>} primaries - The character's primary professions.
+ */
+
+/**
+ * Get the character's profession(s)
+ * @param {WowRegion} region - The region to get the professions from
+ * @param {string} realmSlug - The realm slug to get the professions from
+ * @param {string} characterName - The character name to get the professions from
+ * @param {string} token - The token to use for the request
+ * @returns {Promise<WowCharacterProfileSummaryResponse>} - The promise of the fetch request
+ */
+export const getWowCharacterProfessionSummary = async (region, realmSlug, characterName, token) => {
+	const apiBaseUri = getApiBaseUri(region);
+	const ns = getApiNamespace(region, 'profile');
+	const apiEndpoint = `${apiBaseUri}/profile/wow/character/${realmSlug}/${characterName}/professions?namespace=${ns}&locale=${API_LOCALE}&access_token=${token}`
+	const result = await getRemoteJson(apiEndpoint);
+	return result;
+}
