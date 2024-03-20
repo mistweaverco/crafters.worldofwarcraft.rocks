@@ -11,8 +11,6 @@ let professionSelectbox
 /** @type {HTMLSelectElement} */
 let itemslotSelectbox;
 
-let selectedRegion = '';
-
 /**
  * Resets the selectboxes to empty and disabled state
  * @param {Array<HTMLSelectElement>} selectboxes
@@ -25,12 +23,12 @@ const resetSelectboxes = (selectboxes) => {
 }
 
 /**
- * @param {Array<{realm_id: number, name: string}>} realms
+ * @param {Array<{id: number, name: string}>} realms
  */
 const fillRealmSelectbox = async (realms) => {
 	realmSelectbox.disabled = false;
 	realmSelectbox.innerHTML = realms.map((realm) => {
-		return `<option value="${realm.realm_id}">${realm.name}</option>`;
+		return `<option value="${realm.id}">${realm.name}</option>`;
 	}).join('');
 };
 
@@ -38,13 +36,10 @@ const fillRealmSelectbox = async (realms) => {
  * @param {string} value
  */
 const onRegionChange = async (value) => {
-	// if the value is the same as the selected region, we don't want to do anything
-	if (value === selectedRegion) return;
-	// if the value is not allowed, we don't want to do anything
-	if (!['eu', 'us'].includes(value)) return;
-	selectedRegion = value;
 	// if the selectboxes are not set, we don't want to do anything
 	if (!realmSelectbox || !professionSelectbox || !itemslotSelectbox) return;
+	// if the value is not allowed, we don't want to do anything
+	if (!['eu', 'us'].includes(value)) return;
 	// in case the region is not set or the value has changed
 	// we want to reset the selectbox
 	resetSelectboxes([realmSelectbox, professionSelectbox, itemslotSelectbox]);
@@ -54,10 +49,25 @@ const onRegionChange = async (value) => {
 
 region.subscribe(onRegionChange);
 
+const onRealmChange = async () => {
+	const realmValue = realmSelectbox.value;
+	if (!realmValue) return;
+	const professionsResponse = await fetchJson(`/api/professions?realm=${realmValue}`);
+	if (!professionsResponse) return;
+	if (!professionsResponse.professions) return;
+	if (professionsResponse.professions.length === 0) return;
+	professionSelectbox.disabled = false;
+	professionSelectbox.innerHTML = professionsResponse.professions.map((profession) => {
+		return `<option value="${profession.id}">${profession.name}</option>`;
+	}).join('');
+};
+
 onMount(async () => {
-	if (data?.region) {
-		onRegionChange(data.region);
+	const regionValue = data?.region || $region || undefined;
+	if (regionValue && realmSelectbox.options.length === 0) {
+		onRegionChange(regionValue);
 	}
+	realmSelectbox.onchange = onRealmChange;
 });
 </script>
 
