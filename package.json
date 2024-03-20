@@ -23,7 +23,8 @@
 		"format": "prettier --write .",
 		"docs": "serve docs",
 		"db:pull": "npx prisma db pull",
-		"db:generate": "npx prisma generate"
+		"db:generate": "npx prisma generate",
+		"db:gui": "npx prisma studio"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
